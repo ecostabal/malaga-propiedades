@@ -1,3 +1,5 @@
+import React from 'react';
+
 const links = [
     { name: 'Visit my website', href: 'https://pucho.dev/' },
   ]
