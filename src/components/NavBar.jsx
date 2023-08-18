@@ -1,5 +1,4 @@
-import React from 'react';
-import { Fragment, useState } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { RoutePaths } from '../general/RoutePaths';
@@ -18,9 +17,9 @@ export default function Navigation() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
 
-  const handleTabClick = (path) => {
-    setActiveTab(path);
-  }
+  useEffect(() => {
+    setActiveTab(location.pathname);
+  }, [location.pathname]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -55,7 +54,6 @@ export default function Navigation() {
                       <NavLink
                         key={item.name}
                         to={item.path}
-                        onClick={() => handleTabClick(item.path)}
                         className={classNames(
                           activeTab === item.path ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                           'rounded-md px-3 py-2 text-sm font-medium'
@@ -102,30 +100,10 @@ export default function Navigation() {
                       <Menu.Item>
                         {({ active }) => (
                           <NavLink
-                            to="#"
+                            to={RoutePaths.LOGIN}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
-                            Your Profile
-                          </NavLink>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <NavLink
-                            to="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Settings
-                          </NavLink>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <NavLink
-                            to="#"
-                            className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                          >
-                            Sign out
+                            Login / Register
                           </NavLink>
                         )}
                       </Menu.Item>
@@ -143,7 +121,6 @@ export default function Navigation() {
                   key={item.name}
                   as={NavLink}
                   to={item.path}
-                  onClick={() => handleTabClick(item.path)}
                   className={classNames(
                     activeTab === item.path ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                     'block rounded-md px-3 py-2 text-base font-medium'

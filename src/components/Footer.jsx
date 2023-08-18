@@ -8,7 +8,7 @@ export default function Footer() {
             <img className="w-auto h-7" src="/FAVICON.png" alt=""/>
         </a>
 
-        <p className="text-sm text-gray-600 dark:text-gray-300">© Copyright 2023. All Rights Reserved - pucho.dev</p>
+        <p className="text-sm text-gray-600 dark:text-gray-300">© Copyright 2023. All Rights Reserved - pucho.dev 😋</p>
 
         <div className="flex -mx-2">
             <a href="https://github.com/ecostabal" className="mx-2 text-gray-600 transition-colors duration-300 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400" aria-label="Github">
