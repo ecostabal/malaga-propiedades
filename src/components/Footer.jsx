@@ -3,7 +3,7 @@ import React from 'react';
 export default function Footer() {
   return (
     <footer className="bg-slate-100	">
-    <div className="container flex flex-col items-center justify-between p-6 mx-auto space-y-4 sm:space-y-0 sm:flex-row">
+    <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 flex flex-col items-center justify-between p-6 space-y-4 sm:space-y-0 sm:flex-row">
         <a href="#">
             <img className="w-auto h-7" src="/FAVICON.png" alt=""/>
         </a>
