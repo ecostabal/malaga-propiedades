@@ -1,16 +1,10 @@
-import { RoutePaths } from '../general/RoutePaths';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import NotFoundComponent from "../components/NotFoundComponent"
 
-export const NotFound = () => {
-  const navigate = useNavigate();
+export const NotFound = () => {  
   return (
-    <div className="flex flex-col items-center">
-      <h3>
-        Page not found.
-      </h3>
-      <button onClick={() => navigate(RoutePaths.HOME)} type="button">
-        Go Home Now
-      </button>
+    <div>
+      <NotFoundComponent/>
     </div>
   );
 };
