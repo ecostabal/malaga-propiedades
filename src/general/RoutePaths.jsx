@@ -1,5 +1,7 @@
 export const RoutePaths = {
   HOME: '/',
   TEAM: '/team',
-  LOGIN: '/login'
+  LOGIN: '/login',
+  PROPIEDADES: '/propiedades',
+  API: '/api/propiedades'
 };

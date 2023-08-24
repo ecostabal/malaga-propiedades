@@ -6,6 +6,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 const navigation = [
   { name: 'Inicio', path: RoutePaths.HOME },
+  { name: 'Propiedades', path: RoutePaths.PROPIEDADES },
   { name: 'Team', path: RoutePaths.TEAM },
 ];
 

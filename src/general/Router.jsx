@@ -5,11 +5,13 @@ import { Home } from "../home/Home.jsx";
 import { Team } from "../pages/Team"
 import { LogRegister } from "../pages/LogRegister"
 import { NotFound } from "../pages/NotFound";
+import Propiedades from "../pages/Propiedades"
 
 export const Router = () => (
   <Routes>
-    <Route path={RoutePaths.HOME} element={<Home />}/>
+    <Route path={RoutePaths.HOME} element={<Home />} />
     <Route path={RoutePaths.TEAM} element={<Team />}/>
+    <Route path={RoutePaths.PROPIEDADES} element={<Propiedades />}/>
     <Route path={RoutePaths.LOGIN} element={<LogRegister />}/>
     <Route path="*" element={<NotFound />} />
   </Routes>
