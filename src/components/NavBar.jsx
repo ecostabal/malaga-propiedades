@@ -23,7 +23,7 @@ export default function Navigation() {
   }, [location.pathname]);
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="white">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -44,7 +44,7 @@ export default function Navigation() {
                   <NavLink to={RoutePaths.HOME}>
                     <img
                       className="h-8 w-auto"
-                      src="./src//assets/logoblanco.png"
+                      src="./src//assets/logomp.png"
                       alt="Your Company"
                     />
                   </NavLink>
@@ -56,7 +56,7 @@ export default function Navigation() {
                         key={item.name}
                         to={item.path}
                         className={classNames(
-                          activeTab === item.path ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          activeTab === item.path ? 'bg-slate-50 text-gray-900' : 'text-gray-900 hover:bg-slate-50 hover:text-gray-900',
                           'rounded-md px-3 py-2 text-sm font-medium'
                         )}
                       >
@@ -69,7 +69,7 @@ export default function Navigation() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
-                  className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white"
+                  className="relative rounded-full p-1 text-gray-400 hover:text-neutral-600"
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
@@ -78,7 +78,7 @@ export default function Navigation() {
 
                 <Menu as="div" className="relative ml-3">
                   <div>
-                    <Menu.Button className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white">
+                    <Menu.Button className="relative rounded-full p-1 text-gray-400 hover:text-neutral-600">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
                       <UserIcon className="h-6 w-6" aria-hidden="true" />
