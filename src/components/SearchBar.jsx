@@ -43,7 +43,6 @@ const SearchBar = ({ onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('handleSubmit triggered'); // Add this
     onSearch({ operacion, tipo, region, comuna });
   };
 

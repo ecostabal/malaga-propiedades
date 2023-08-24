@@ -6,20 +6,23 @@ import cors from 'cors'; // Importa el módulo cors
 
 dotenv.config();
 
+
+
 const app = express();
 
-const PORT = process.env.PORT || 5173;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // Configuración de opciones CORS
+const allowedOrigins = ['http://localhost:5173/', 'https://malaga.pucho.dev/'];
+
 const corsOptions = {
-  origin: 'http://localhost:5173/',
-  methods: ['GET', 'POST'],  // <-- Añadiendo POST
+  origin: function (origin, callback) {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  methods: ['GET', 'POST'],
   credentials: false,
   optionsSuccessStatus: 204
 };
@@ -52,7 +55,6 @@ app.post('/api/propiedades', async (req, res) => {
 
     const totalResults = Array.isArray(response.data.Lista) ? response.data.Lista.length : 0;
 
-    // Suponiendo que muestras 12 resultados por página
     const totalPages = Math.ceil(totalResults / 12);
 
     res.json({

@@ -4,6 +4,7 @@ import { Ping } from "@uiball/loaders";
 import Pagination from './Pagination';
 import SearchBar from './SearchBar';
 
+
 const PropertyList = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -17,6 +18,8 @@ const PropertyList = () => {
     region: "-1",
     comuna: ""
   });
+
+
 
   const handleSearch = (newCriteria) => {
     console.log('handleSearch triggered with:', newCriteria);
@@ -45,8 +48,6 @@ const PropertyList = () => {
         "RegPag": 12,
         "NumPag": pageNum
       };
-
-      console.log('Sending request body:', body);
 
       try {
         const response = await fetch("/api/propiedades", {
@@ -85,6 +86,7 @@ const PropertyList = () => {
         setIsLoading(false);
 
       } catch (err) {
+        console.error('Error fetching data:', err, JSON.stringify(err, null, 2));
         console.error('Error fetching data:', err);
         setError(err);
         setIsLoading(false);
