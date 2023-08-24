@@ -3,7 +3,7 @@
 Create your own project based on this template by running:
 
 ```bash
-npx degit ecostabal/vite-react-tailwind
+npx degit ecostabal/malaga-propiedades
 ```
 
 ## Install
