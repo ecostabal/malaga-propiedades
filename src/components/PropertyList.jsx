@@ -32,84 +32,81 @@ const PropertyList = () => {
 
   useEffect(() => {
     const fetchData = async (pageNum, searchParams) => {
-      setIsLoading(true);
+        setIsLoading(true);
+        setProperties([]); // Limpiar los resultados anteriores antes de cargar nuevos datos
 
-      const body = {
-        "Operacion": searchParams.operacion,
-        "Region": -1,
-        "Tipo": searchParams.tipo,
-        "Comuna": searchParams.comuna,
-        "TipoMoneda": 1,
-        "ValorDesde": 0,
-        "ValorHasta": 0,
-        "SupDesde": 0,
-        "SupHasta": 0,
-        "DormDesde": 0,
-        "DormHasta": 0,
-        "Condominio": -1,
-        "Ordenamiento": "Reciente",
-        "RegPag": 12,
-        "NumPag": pageNum
-      };
+        const body = { 
+            "Operacion": searchParams.operacion,
+            "Region": -1,
+            "Tipo": searchParams.tipo,
+            "Comuna": searchParams.comuna,
+            "TipoMoneda": 1,
+            "ValorDesde": 0,
+            "ValorHasta": 0,
+            "SupDesde": 0,
+            "SupHasta": 0,
+            "DormDesde": 0,
+            "DormHasta": 0,
+            "Condominio": -1,
+            "Ordenamiento": "Reciente",
+            "RegPag": 12,
+            "NumPag": pageNum
+        };
 
-      try {
-        const response = await fetch("/api/propiedades", {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
-            'Content-Type': 'application/json;charset=iso-8859-1',
-          },
-          body: JSON.stringify(body),
-        });
-        
-        const blobData = await response.blob();
-        const textData = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            resolve(reader.result);
-          };
-          reader.onerror = reject;
-          reader.readAsText(blobData, 'ISO-8859-1');
-        });
-        const data = JSON.parse(textData);
-        
+        try {
+            const response = await fetch("/api/propiedades", {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+                    'Content-Type': 'application/json;charset=iso-8859-1',
+                },
+                body: JSON.stringify(body),
+            });
 
-        console.log(data) // este console log dice que no hay propiedades desde ofinet
-        if (data) {
-          if (data.responseCode !== undefined && data.responseCode !== 0) {
-              if (data.responseCode === -1) {
-                  // Aquí manejamos el caso específico
-                  console.log(data.ErrorMensaje);
-                  setProperties([]); // Limpiar la lista de propiedades
-                  setNoResultsMessage(data.ErrorMensaje); // Establecer el mensaje de no resultados
-              } else {
-                  throw new Error(data.ErrorMensaje || 'Respuesta no fue exitosa');
-              }
-          } else if (Array.isArray(data.Lista)) {
-              setProperties(data.Lista);
-              setTotalResults(data.PropiedadesEncontradas || 0);
-              
-          } else {
-              throw new Error('La respuesta no es un array');
-          }
-      } else {
-          throw new Error('Respuesta de la API es nula');
-      }
-      
-        
-      
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError(error); // Aunque no lo usamos en el renderizado, es buena práctica tener un manejo de error
-      } finally {
-        setIsLoading(false); // Garantizamos que siempre se detenga el indicador de carga
-      }
-      
+            const blobData = await response.blob();
+            const textData = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    resolve(reader.result);
+                };
+                reader.onerror = reject;
+                reader.readAsText(blobData, 'ISO-8859-1');
+            });
+            const data = JSON.parse(textData);
+
+            if (data) {
+                if (data.responseCode !== undefined && data.responseCode !== 0) {
+                    if (data.responseCode === -1) {
+                        console.log(data.ErrorMensaje);
+                        setNoResultsMessage(data.ErrorMensaje); 
+                    } else {
+                        throw new Error(data.ErrorMensaje || 'Respuesta no fue exitosa');
+                    }
+                } else if (Array.isArray(data.Lista)) {
+                    if (data.Lista.length === 0) {
+                        setNoResultsMessage("No se encontraron propiedades para los criterios seleccionados.");
+                    } else {
+                        setProperties(data.Lista);
+                        setTotalResults(data.PropiedadesEncontradas || 0);
+                    }
+                } else {
+                    throw new Error('La respuesta no es un array');
+                }
+            } else {
+                throw new Error('Respuesta de la API es nula');
+            }
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setError(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     fetchData(currentPage, searchParams);
-  }, [currentPage, searchParams]);
+}, [currentPage, searchParams]);
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
