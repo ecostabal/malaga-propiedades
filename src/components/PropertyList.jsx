@@ -5,7 +5,6 @@ import Pagination from './Pagination';
 import SearchBar from "./SearchBar"
 
 const PropertyList = () => {
-  const [availableOperations, setAvailableOperations] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [properties, setProperties] = useState([]);
