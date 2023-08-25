@@ -12,7 +12,7 @@ const PropertyList = () => {
   const [error, setError] = useState(null);
   const [noResultsMessage, setNoResultsMessage] = useState(null); // Mueve esta línea aquí
   const [searchParams, setSearchParams] = useState({
-    operacion: -1,
+    operacion: 0,
     tipo: "-1",
     comuna: -1,
   });

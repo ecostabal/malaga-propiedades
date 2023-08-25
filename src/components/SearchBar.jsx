@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 
 const SearchBar = ({ onSearch }) => {
   const [availableOperations, setAvailableOperations] = useState([]);
-  const [operacion, setOperacion] = useState();
+  const [operacion, setOperacion] = useState(0);  // en lugar de useState();
   const [tipoInmuebles, setTipoInmuebles] = useState([]);
   const [tipo, setTipo] = useState('');
-  const [comuna, setComuna] = useState(-1);
+  const [comuna, setComuna] = useState(-1);       // en lugar de useState();
   const [comunas, setComunas] = useState([]);
 
   useEffect(() => {
