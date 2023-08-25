@@ -9,10 +9,12 @@ dotenv.config();
 
 
 const app = express();
+app.use(express.json());
+
 
 
 // Configuración de opciones CORS
-const allowedOrigins = ['http://localhost:5173, https://malaga.pucho.dev/, https://malaga-propiedades.vercel.app'];
+const allowedOrigins = ['http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
