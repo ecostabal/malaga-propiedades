@@ -19,6 +19,7 @@ const PropertyList = () => {
   
 
   const handleSearch = (newCriteria) => {
+    setNoResultsMessage(null); // Añade esta línea
     setSearchParams({
       operacion: Number(newCriteria.operacion),
       tipo: String(newCriteria.tipo),
@@ -26,6 +27,7 @@ const PropertyList = () => {
     });
     setCurrentPage(1);
   };
+  
   
 
   useEffect(() => {
