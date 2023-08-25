@@ -6,7 +6,6 @@ import cors from 'cors'; // Importa el módulo cors
 
 dotenv.config();
 
-response.setHeader('Content-Type', 'text/plain; charset=ISO-8859-1');
 
 
 const app = express();
@@ -74,6 +73,63 @@ app.post('/api/propiedades', async (req, res) => {
     res.status(500).json({ error: 'Error fetching data from the API' });
   }
 });
+
+app.get('/api/Operacion', async (req, res) => {
+  try {
+      const apiBaseUrl = process.env.BASE_URL;
+
+      const response = await axios.get(`${apiBaseUrl}/api/Operacion`, {
+          headers: {
+              Authorization: `Bearer ${process.env.API_TOKEN}`,
+              'Content-Type': 'application/json;charset=iso-8859-1',
+          },
+      });
+
+      console.log('Response from /api/Operacion:', response.data);
+
+      if (response.data.responseCode !== 0) {
+          throw new Error(response.data.ErrorMensaje);
+      }
+
+      res.json(response.data);
+  } catch (error) {
+      if (error.response && error.response.data) {
+          console.error('Error from the API:', error.response.data);
+      } else {
+          console.error('Error fetching data:', error);
+      }
+      res.status(500).json({ error: 'Error fetching data from the API' });
+  }
+});
+
+app.get('/api/Categoria', async (req, res) => {
+  try {
+      const apiBaseUrl = process.env.BASE_URL;
+
+      const response = await axios.get(`${apiBaseUrl}/api/Categoria`, {
+          headers: {
+              Authorization: `Bearer ${process.env.API_TOKEN}`,
+              'Content-Type': 'application/json;charset=iso-8859-1',
+          },
+      });
+
+      console.log('Response from /api/Categoria:', response.data);
+
+      if (response.data.responseCode !== 0) {
+          throw new Error(response.data.ErrorMensaje);
+      }
+
+      res.json(response.data);
+  } catch (error) {
+      if (error.response && error.response.data) {
+          console.error('Error from the API:', error.response.data);
+      } else {
+          console.error('Error fetching data:', error);
+      }
+      res.status(500).json({ error: 'Error fetching data from the API' });
+  }
+});
+
 
 app.get('/api/Comuna', async (req, res) => {
   try {

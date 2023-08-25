@@ -6,15 +6,18 @@ export default function Pagination({ currentPage, setCurrentPage, totalResults }
   const VISIBLE_PAGES = 5;
   const RESULTS_PER_PAGE = 12;
   const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+
   const handlePageClick = (page) => {
     setCurrentPage(page);
   };
-  const displayStart = (currentPage && totalResults) ? (currentPage - 1) * RESULTS_PER_PAGE + 1 : 0;
-  const displayEnd = (currentPage && totalResults)
-  ? currentPage !== totalPages
-      ? currentPage * RESULTS_PER_PAGE
-      : (currentPage - 1) * RESULTS_PER_PAGE + totalResults % RESULTS_PER_PAGE
-  : 0;
+
+  let displayStart = 0;
+  let displayEnd = 0;
+
+  if (currentPage && totalResults) {
+    displayStart = (currentPage - 1) * RESULTS_PER_PAGE + 1;
+    displayEnd = Math.min(currentPage * RESULTS_PER_PAGE, totalResults);
+  }
 
 
   const getVisiblePages = () => {

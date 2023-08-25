@@ -5,6 +5,7 @@ import Pagination from './Pagination';
 import SearchBar from "./SearchBar"
 
 const PropertyList = () => {
+  const [availableOperations, setAvailableOperations] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [properties, setProperties] = useState([]);
@@ -12,7 +13,7 @@ const PropertyList = () => {
   const [error, setError] = useState(null);
   const [noResultsMessage, setNoResultsMessage] = useState(null); // Mueve esta línea aquí
   const [searchParams, setSearchParams] = useState({
-    operacion: 1,
+    operacion: -1,
     tipo: "-1",
     comuna: -1,
   });
