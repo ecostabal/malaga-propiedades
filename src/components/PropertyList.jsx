@@ -2,40 +2,41 @@ import React, { useState, useEffect } from 'react';
 import PropertyCard from '../components/PropertyCard';
 import { Ping } from "@uiball/loaders";
 import Pagination from './Pagination';
-import SearchBar from './SearchBar';
-
+import SearchBar from "./SearchBar"
 
 const PropertyList = () => {
   const [totalResults, setTotalResults] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [noResultsMessage, setNoResultsMessage] = useState(null); // Mueve esta línea aquí
   const [searchParams, setSearchParams] = useState({
     operacion: 1,
     tipo: "-1",
-    region: "-1",
-    comuna: ""
+    comuna: -1,
   });
-
-
+  
 
   const handleSearch = (newCriteria) => {
-    console.log('handleSearch triggered with:', newCriteria);
-    setSearchParams(newCriteria);
+    setSearchParams({
+      operacion: Number(newCriteria.operacion),
+      tipo: String(newCriteria.tipo),
+      comuna: Number(newCriteria.comuna),
+    });
     setCurrentPage(1);
   };
+  
 
   useEffect(() => {
     const fetchData = async (pageNum, searchParams) => {
       setIsLoading(true);
 
       const body = {
-        "Operacion": Number(searchParams.operacion),
-        "Region": Number(searchParams.region),
+        "Operacion": searchParams.operacion,
+        "Region": -1,
         "Tipo": searchParams.tipo,
-        "Comuna": searchParams.comuna ? Number(searchParams.comuna) : -1,
+        "Comuna": searchParams.comuna,
         "TipoMoneda": 1,
         "ValorDesde": 0,
         "ValorHasta": 0,
@@ -54,43 +55,55 @@ const PropertyList = () => {
           method: 'POST',
           headers: {
             'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json;charset=iso-8859-1',
           },
-          body: JSON.stringify(body)
+          body: JSON.stringify(body),
         });
+        
+        const blobData = await response.blob();
+        const textData = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+          reader.onerror = reject;
+          reader.readAsText(blobData, 'ISO-8859-1');
+        });
+        const data = JSON.parse(textData);
+        
 
-        if (!response.ok) {
-          const responseBody = await response.text();
-          console.error('Response Headers:', response.headers);
-          console.error('Response Status:', response.status);
-          console.error('Response Status Text:', response.statusText);
-          console.error('Response Body:', responseBody);
-          throw new Error('Respuesta no fue exitosa');
-        }
-
-        const data = await response.json();
-
-        if (data && data.responseCode !== 0) {
-          throw new Error(data.ErrorMensaje);
-        } else if (Array.isArray(data.Lista)) {
-          setProperties(data.Lista);
-          setTotalResults(data.PropiedadesEncontradas);
-
-          const pageSize = 12;
-          const calculatedTotalPages = Math.ceil(data.PropiedadesEncontradas / pageSize);
-          setTotalPages(calculatedTotalPages);
-        } else {
-          throw new Error('La respuesta no es un array');
-        }
-
-        setIsLoading(false);
-
-      } catch (err) {
-        console.error('Error fetching data:', err, JSON.stringify(err, null, 2));
-        console.error('Error fetching data:', err);
-        setError(err);
-        setIsLoading(false);
+        console.log(data) // este console log dice que no hay propiedades desde ofinet
+        if (data) {
+          if (data.responseCode !== undefined && data.responseCode !== 0) {
+              if (data.responseCode === -1) {
+                  // Aquí manejamos el caso específico
+                  console.log(data.ErrorMensaje);
+                  setProperties([]); // Limpiar la lista de propiedades
+                  setNoResultsMessage(data.ErrorMensaje); // Establecer el mensaje de no resultados
+              } else {
+                  throw new Error(data.ErrorMensaje || 'Respuesta no fue exitosa');
+              }
+          } else if (Array.isArray(data.Lista)) {
+              setProperties(data.Lista);
+              setTotalResults(data.PropiedadesEncontradas || 0);
+              
+          } else {
+              throw new Error('La respuesta no es un array');
+          }
+      } else {
+          throw new Error('Respuesta de la API es nula');
       }
+      
+        
+      
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setError(error); // Aunque no lo usamos en el renderizado, es buena práctica tener un manejo de error
+      } finally {
+        setIsLoading(false); // Garantizamos que siempre se detenga el indicador de carga
+      }
+      
     };
 
     fetchData(currentPage, searchParams);
@@ -101,24 +114,32 @@ const PropertyList = () => {
   }, [currentPage]);
 
   return (
-    <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mb-24">
       <SearchBar onSearch={handleSearch} />
+      
+      {error && <p className="text-red-500 mt-4">{error.message}</p>}  {/* Aquí está el mensaje de error */}
+
+      <h1 className="text-3xl font-semibold text-gray-800 mb-8">Propiedades</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {isLoading ? (
           <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center h-60">
             <Ping size={40} color="#333" />
           </div>
-        ) : error ? (
-          <p className="text-center text-red-500 col-span-1 md:col-span-2 lg:col-span-3">Ha ocurrido un error: {error.message}</p>
+        ) : noResultsMessage ? (
+          <p className="text-center text-red-500 col-span-1 md:col-span-2 lg:col-span-3">{noResultsMessage}</p>
         ) : (
           properties.map(property => (
             <PropertyCard key={property.NroProp} property={property} />
           ))
         )}
       </div>
-      {!isLoading && <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalResults={totalResults} totalPages={totalPages}/>}
+      {!isLoading && (
+        <Pagination totalResults={totalResults} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      )}
     </div>
-  );
+);
+
+  
 };
 
 export default PropertyList;

@@ -1,80 +1,96 @@
 import React, { useState, useEffect } from 'react';
-import '../css/searchBar.css';
 
 const SearchBar = ({ onSearch }) => {
   const [operacion, setOperacion] = useState(1);
   const [tipo, setTipo] = useState('-1');
-  const [region, setRegion] = useState('-1');
-  const [comuna, setComuna] = useState('');
+  const [comuna, setComuna] = useState(-1);
   const [comunas, setComunas] = useState([]);
 
-  const fetchComunasByRegion = async (regionId) => {
-    try {
-      const response = await fetch(`/api/comunas/${regionId}`); // Asumo que tienes una ruta así, ajusta según tu backend.
-      if (!response.ok) {
-        throw new Error('Error al obtener las comunas.');
-      }
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching comunas:', error);
-      return []; // En caso de error, regresa un array vacío.
-    }
-  };
-
   useEffect(() => {
-    let isMounted = true; // Para verificar si el componente todavía está montado cuando resuelve la promesa.
+    const fetchComunas = async () => {
+      try {
+        const response = await fetch('/api/Comuna', {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Content-Type': 'application/json;charset=iso-8859-1',
+          }
+        });
 
-    if (region !== '-1') {
-      fetchComunasByRegion(region).then(data => {
-        if (isMounted) {
-          setComunas(data);
+        const blobData = await response.blob();
+        const textData = await new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+          reader.onerror = reject;
+          reader.readAsText(blobData, 'ISO-8859-1');
+        });
+
+        const data = JSON.parse(textData);
+
+        if (!data || !data.Comunas) {
+          throw new Error('Error al obtener las comunas.');
         }
-      });
-    } else {
-      setComunas([]);
-      setComuna(''); // Resetear la comuna cuando no hay región seleccionada
-    }
 
-    return () => {
-      isMounted = false; // Limpiar el efecto si el componente se desmonta.
+        setComunas(data.Comunas);
+      } catch (error) {
+        console.error('Error fetching comunas:', error);
+        setComunas([]);
+      }
     };
-  }, [region]);
+
+    fetchComunas();
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch({ operacion, tipo, region, comuna });
+    onSearch({ operacion, tipo, comuna });
   };
 
   return (
-    <form className="searchBar" onSubmit={handleSubmit}>
-      <select value={operacion} onChange={(e) => setOperacion(Number(e.target.value))}>
-        <option value={1}>Venta</option>
-        <option value={2}>Arriendo</option>
-        {/* ... */}
+    <form className="mt-8 flex gap-12 mb-12 w-full" onSubmit={handleSubmit}>
+      <select 
+          value={operacion} 
+          onChange={(e) => setOperacion(Number(e.target.value))}
+          className="py-4 border-b border-gray-300 bg-white text-gray-700 flex-grow text-sm"
+      >
+          <option value={0}>Seleccione operación</option>
+          <option value={1}>Venta</option>
+          <option value={2}>Arriendo</option>
+          {/* ... */}
       </select>
-      <select value={tipo} onChange={(e) => setTipo(e.target.value)}>
-        <option value="-1">Todos los tipos</option>
-        <option value="DE">Departamento</option>
-        <option value="CA">Casa</option>
-        {/* ... */}
-      </select>
-      <select value={region} onChange={(e) => setRegion(e.target.value)}>
-        <option value="-1">Todas las regiones</option>
-        <option value="1">Región Metropolitana</option>
-        <option value="2">Región de Valparaíso</option>
-        {/* ... */}
+      <select 
+          value={tipo} 
+          onChange={(e) => setTipo(e.target.value)}
+          className="py-4 border-b border-gray-300 bg-white text-gray-700 flex-grow text-sm"
+      >
+          <option value="-1">Todos los tipos</option>
+          <option value="DE">Departamento</option>
+          <option value="CA">Casa</option>
+          {/* ... */}
       </select>
       {comunas.length > 0 && (
-        <select value={comuna} onChange={(e) => setComuna(e.target.value)}>
-          <option value="">Selecciona una comuna</option>
-          {comunas.map((c, index) => <option key={index} value={c}>{c}</option>)}
-        </select>
+      <select 
+        value={comuna} 
+        onChange={(e) => setComuna(e.target.value)}
+        className='py-4 border-b border-gray-300 bg-white text-gray-700 flex-grow text-sm'
+      >
+        <option value="">Selecciona una comuna</option>
+        {comunas.map(comuna => 
+          <option key={comuna.Codigo} value={comuna.Codigo}>{comuna.Comuna}</option>
       )}
-      <button type="submit" onClick={() => console.log('Botón clickeado')}>Buscar Propiedades</button>
+      </select>
+      )}
+      <button 
+          type="submit" 
+          onClick={() => console.log('Botón clickeado')}
+          className="bg-gray-800 text-white px-8 py-2 rounded-md flex-shrink-0 text-sm"
+      >
+          Buscar Propiedades
+      </button>
     </form>
-);
-
+  );
 };
 
 export default SearchBar;

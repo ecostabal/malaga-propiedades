@@ -1,18 +1,35 @@
 import React from 'react';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
+import PropTypes from 'prop-types';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid';
 
-export default function Pagination({ currentPage, setCurrentPage, totalResults /* ... otras props ... */ }) {
-    const handlePageClick = (page) => {
-        setCurrentPage(page);
-        
+export default function Pagination({ currentPage, setCurrentPage, totalResults }) {
+  const VISIBLE_PAGES = 5;
+  const RESULTS_PER_PAGE = 12;
+  const totalPages = Math.ceil(totalResults / RESULTS_PER_PAGE);
+  const handlePageClick = (page) => {
+    setCurrentPage(page);
+  };
+  const displayStart = (currentPage && totalResults) ? (currentPage - 1) * RESULTS_PER_PAGE + 1 : 0;
+  const displayEnd = (currentPage && totalResults)
+  ? currentPage !== totalPages
+      ? currentPage * RESULTS_PER_PAGE
+      : (currentPage - 1) * RESULTS_PER_PAGE + totalResults % RESULTS_PER_PAGE
+  : 0;
+
+
+  const getVisiblePages = () => {
+    let start = Math.max(1, currentPage - Math.floor(VISIBLE_PAGES / 2));
+    let end = Math.min(totalPages, start + VISIBLE_PAGES - 1);
+
+    if (end - start + 1 < VISIBLE_PAGES) {
+      start = Math.max(1, end - VISIBLE_PAGES + 1);
     }
 
-    const displayStart = (currentPage && totalResults) ? (currentPage - 1) * 12 + 1 : 0;
-    const displayEnd = (currentPage && totalResults) ? Math.min(currentPage * 12, totalResults) : 0;
-    
-    
-    return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+    return Array.from({ length: end - start + 1 }, (_, i) => i + start);
+  };
+
+  return (
+    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 mt-12">
       <div className="flex flex-1 justify-between sm:hidden">
         <a
           onClick={(e) => {
@@ -26,8 +43,7 @@ export default function Pagination({ currentPage, setCurrentPage, totalResults /
         <a
           onClick={(e) => {
               e.preventDefault();
-              // Por simplicidad, supondré que tienes 10 páginas. Cambia esto según tus necesidades.
-              if (currentPage < 10) handlePageClick(currentPage + 1);
+              if (currentPage < totalPages) handlePageClick(currentPage + 1);
           }}
           className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
         >
@@ -53,10 +69,8 @@ export default function Pagination({ currentPage, setCurrentPage, totalResults /
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </a>
-
-            {/* Aquí es donde puedes agregar botones dinámicos según la cantidad de páginas.
-                 Como ejemplo, solo mostraré los primeros 10 números de página. */}
-            {Array.from({ length: 10 }, (_, i) => i + 1).map(pageNum => (
+            
+            {getVisiblePages().map(pageNum => (
               <a
                   key={pageNum}
                   onClick={(e) => {
@@ -68,12 +82,12 @@ export default function Pagination({ currentPage, setCurrentPage, totalResults /
                   {pageNum}
               </a>
             ))}
-
+            
             <a
               onClick={(e) => {
                   e.preventDefault();
-                  if (currentPage < Math.ceil(totalResults / 12)) handlePageClick(currentPage + 1);
-                }}
+                  if (currentPage < totalPages) handlePageClick(currentPage + 1);
+              }}
               className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
             >
               <span className="sr-only">Next</span>
@@ -83,5 +97,11 @@ export default function Pagination({ currentPage, setCurrentPage, totalResults /
         </div>
       </div>
     </div>
-  )
+  );
 }
+
+Pagination.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  totalResults: PropTypes.number.isRequired
+};
