@@ -39,25 +39,25 @@ export default function Navigation() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+              <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 ">
                   <NavLink to={RoutePaths.HOME}>
                     <img
                       className="h-8 w-auto"
-                      src="./src//assets/logomp.png"
-                      alt="Your Company"
+                      src="./src//assets/logo.png"
+                      alt="Málaga Propiedades"
                     />
                   </NavLink>
                 </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                <div className="hidden sm:ml-6 sm:block justify-end">
+                  <div className="ml-12 flex space-x-6">
                     {navigation.map((item) => (
                       <NavLink
                         key={item.name}
                         to={item.path}
                         className={classNames(
                           activeTab === item.path ? 'bg-slate-50 text-gray-900' : 'text-gray-900 hover:bg-slate-50 hover:text-gray-900',
-                          'rounded-md px-3 py-2 text-sm font-medium'
+                          'rounded-md px-5 py-2 text-sm font-medium'
                         )}
                       >
                         {item.name}

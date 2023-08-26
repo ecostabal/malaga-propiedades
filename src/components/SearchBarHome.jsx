@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Selector from "./Selector"
 
-const SearchBar = ({ onSearch }) => {
+const SearchBarHome = ({ onSearch }) => {
+  const navigate = useNavigate();
   const [availableOperations, setAvailableOperations] = useState([]);
   const [tipoInmuebles, setTipoInmuebles] = useState([]);
   const [comunas, setComunas] = useState([]);
@@ -113,6 +115,8 @@ const SearchBar = ({ onSearch }) => {
       const selectedOperacion = selectedOperation.Codigo;
       const selectedTipoInmueble = selectedTipo.Codigo;
       const selectedComunaCodigo = selectedComuna.Codigo;
+
+      navigate(`/propiedades?operacion=${selectedOperacion}&tipo=${selectedTipoInmueble}&comuna=${selectedComunaCodigo}`);
     
       onSearch({
         operacion: selectedOperacion,
@@ -124,7 +128,7 @@ const SearchBar = ({ onSearch }) => {
   
 
   return (
-    <form className="mt-8 gap-8 grid md:grid-cols-4 mb-12" onSubmit={handleSubmit}>
+    <form className="mt-6 gap-6 grid md:grid-cols-4 mb-8" onSubmit={handleSubmit}>
       <div className="col-span-1 w-full">
         <Selector 
           options={availableOperations} 
@@ -152,11 +156,11 @@ const SearchBar = ({ onSearch }) => {
       </div>
 
       {comunas.length > 0 && (
-        <div className="col-span-1 w-full">
+        <div className="col-span-1">
           <Selector 
             options={comunas} 
             selectedOption={selectedComuna} 
-            setSelectedOption={handleComunaChange}  // Usar la función de cambio
+            setSelectedOption={handleComunaChange}
             displayProperty="Comuna"
             label="Comuna" 
             idKey="Codigo" 
@@ -169,7 +173,7 @@ const SearchBar = ({ onSearch }) => {
       name="nuevaBusqueda"
       type="submit" 
       onClick={() => console.log('Botón clickeado')}
-      className="bg-gray-800 text-white px-8 py-2 rounded-md text-sm mx-auto w-full mt-8"
+      className="bg-gray-800 text-white px-8 py-4 rounded-md text-sm mx-auto w-full mt-8"
     >
       Buscar Propiedades
     </button>
@@ -178,4 +182,4 @@ const SearchBar = ({ onSearch }) => {
   );
 };
 
-export default SearchBar;
+export default SearchBarHome;

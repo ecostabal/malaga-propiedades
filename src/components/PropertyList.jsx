@@ -117,8 +117,6 @@ const PropertyList = () => {
       <SearchBar onSearch={handleSearch} />
       
       {error && <p className="text-red-500 mt-4">{error.message}</p>}  {/* Aquí está el mensaje de error */}
-
-      <h1 className="text-3xl font-semibold text-gray-800 mb-8">Propiedades</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {isLoading ? (
           <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center h-60">
