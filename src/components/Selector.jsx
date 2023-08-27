@@ -29,9 +29,9 @@ const Selector = ({
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 {open ? (
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-800" aria-hidden="true" />
                 ) : (
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-800" aria-hidden="true" />
                 )}
               </span>
             </Listbox.Button>

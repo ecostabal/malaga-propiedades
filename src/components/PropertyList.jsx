@@ -4,6 +4,7 @@ import { Waveform } from "@uiball/loaders";
 import Pagination from './Pagination';
 import SearchBar from "./SearchBar"
 
+
 const PropertyList = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,8 +58,8 @@ const PropertyList = () => {
             const response = await fetch("/api/propiedades", {
                 method: 'POST',
                 headers: {
-                    'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
-                    'Content-Type': 'application/json;charset=iso-8859-1',
+                  'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+                  'Content-Type': 'application/json;charset=iso-8859-1',
                 },
                 body: JSON.stringify(body),
             });

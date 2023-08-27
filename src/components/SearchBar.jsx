@@ -29,7 +29,7 @@ const SearchBar = ({ onSearch }) => {
         const response = await fetch('/api/Operacion', {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
         });1
@@ -51,7 +51,7 @@ const SearchBar = ({ onSearch }) => {
         const response = await fetch('/api/Categoria', {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
         });
@@ -73,7 +73,7 @@ const SearchBar = ({ onSearch }) => {
         const response = await fetch('/api/Comuna', {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
         });
