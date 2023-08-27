@@ -5,25 +5,25 @@ const people = [
       name: 'Enrique Costabal Guzmán',
       role: 'Co-Founder / CEO',
       imageUrl:
-        '../src/assets/EC.png',
+        '../public/assets/EC.png',
     },
     {
       name: 'Nicolás Morales Alcalde',
       role: 'Co-Founder / COO',
       imageUrl:
-        '../src/assets/NM.png',
+        '../public/assets/NM.png',
     },
     {
       name: 'Katya Marincovich Schneider',
       role: 'Co-Founder / Customer Success Manager',
       imageUrl:
-        '../src/assets/KM.png',
+        '../public/assets/KM.png',
     },
     {
       name: 'Vicente Sánchez Amunátegui',
       role: 'Sales Representative',
       imageUrl:
-        '../src/assets/VS.png',
+        '../public/assets/VS.png',
     },
     
     // More people...
