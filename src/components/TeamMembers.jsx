@@ -5,25 +5,25 @@ const people = [
       name: 'Enrique Costabal Guzmán',
       role: 'Co-Founder / CEO',
       imageUrl:
-        '../public/assets/EC.png',
+        '/assets/EC.png',
     },
     {
       name: 'Nicolás Morales Alcalde',
       role: 'Co-Founder / COO',
       imageUrl:
-        '../public/assets/NM.png',
+        '/assets/NM.png',
     },
     {
       name: 'Katya Marincovich Schneider',
       role: 'Co-Founder / Customer Success Manager',
       imageUrl:
-        '../public/assets/KM.png',
+        '/assets/KM.png',
     },
     {
       name: 'Vicente Sánchez Amunátegui',
       role: 'Sales Representative',
       imageUrl:
-        '../public/assets/VS.png',
+        '/assets/VS.png',
     },
     
     // More people...
@@ -36,8 +36,7 @@ const people = [
           <div className="max-w-2xl">
             <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Un equipo sólido</h2>
             <p className="mt-6 text-lg leading-8 text-gray-600">
-              Libero fames augue nisl porttitor nisi, quis. Id ac elit odio vitae elementum enim vitae ullamcorper
-              suspendisse.
+              Somos un equipo juvenil y multidisciplinario, juntos resolvemos y llevamos a cabo todos los cierres de manera eficiente.
             </p>
           </div>
           <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">

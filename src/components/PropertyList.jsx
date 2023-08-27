@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
 import { Waveform } from "@uiball/loaders";
 import Pagination from './Pagination';
 import SearchBar from "./SearchBar"
+import { RoutePaths } from '../general/RoutePaths';
+
 
 
 const PropertyList = () => {
@@ -127,8 +130,12 @@ const PropertyList = () => {
           <p className="text-center text-red-500 col-span-1 md:col-span-2 lg:col-span-3">{noResultsMessage}</p>
         ) : (
           properties.map(property => (
-            <PropertyCard key={property.NroProp} property={property} />
-          ))
+            <Link
+            key={property.NroProp}
+            to={`${RoutePaths.PROPERTY_DETAIL}/${property.NroProp}`} // Construye la URL para el detalle de propiedad
+          >
+            <PropertyCard property={property} />
+          </Link>      ))
         )}
       </div>
       {!isLoading && (

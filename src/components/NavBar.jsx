@@ -44,7 +44,7 @@ export default function Navigation() {
                   <NavLink to={RoutePaths.HOME}>
                     <img
                       className="h-8 w-auto"
-                      src="./public/assets/logo.png"
+                      src="/assets/logo.png"
                       alt="Málaga Propiedades"
                     />
                   </NavLink>

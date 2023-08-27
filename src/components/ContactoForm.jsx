@@ -57,8 +57,7 @@ export default function ContactoForm() {
             </div>
             <h2 className="text-3xl font-bold tracking-tight text-white">Conversémos</h2>
             <p className="mt-6 text-lg leading-8 text-gray-300">
-              Proin volutpat consequat porttitor cras nullam gravida at. Orci molestie a eu arcu. Sed ut tincidunt
-              integer elementum id sem. Arcu sed malesuada et magna.
+              ¿Quieres vender o arrendar tu propiedad con nosotros? Escríbenos, con gusto te atenderemos.
             </p>
             <dl className="mt-10 space-y-4 text-base leading-7 text-gray-300">
               <div className="flex gap-x-4">
