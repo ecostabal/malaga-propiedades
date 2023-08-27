@@ -1,6 +1,6 @@
 export const RoutePaths = {
   HOME: '/',
-  TEAM: '/team',
+  CONVERSEMOS: '/conversemos',
   LOGIN: '/login',
   PROPIEDADES: '/propiedades',
   API: '/api/propiedades'

@@ -169,7 +169,7 @@ const SearchBar = ({ onSearch }) => {
       name="nuevaBusqueda"
       type="submit" 
       onClick={() => console.log('Botón clickeado')}
-      className="bg-gray-800 text-white px-8 py-2 rounded-md text-sm mx-auto w-full mt-8"
+      className="bg-gray-800 hover:bg-black text-white px-8 py-2 rounded-md text-sm mx-auto w-full mt-8"
     >
       Buscar Propiedades
     </button>

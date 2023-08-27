@@ -1,13 +1,13 @@
 import React, { useState, Fragment, useEffect } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, BellIcon, XMarkIcon, UserIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { RoutePaths } from '../general/RoutePaths';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const navigation = [
   { name: 'Inicio', path: RoutePaths.HOME },
   { name: 'Propiedades', path: RoutePaths.PROPIEDADES },
-  { name: 'Team', path: RoutePaths.TEAM },
+  { name: 'Conversémos', path: RoutePaths.CONVERSEMOS },
 ];
 
 function classNames(...classes) {
@@ -39,8 +39,8 @@ export default function Navigation() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 ">
+              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-shrink-0 items-center">
                   <NavLink to={RoutePaths.HOME}>
                     <img
                       className="h-8 w-auto"
@@ -73,7 +73,7 @@ export default function Navigation() {
                 >
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+                  <HeartIcon className="h-6 w-6" aria-hidden="true" />
                 </button>
 
                 <Menu as="div" className="relative ml-3">

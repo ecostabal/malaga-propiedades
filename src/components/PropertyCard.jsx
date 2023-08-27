@@ -1,4 +1,6 @@
 import React from 'react';
+import { HeartIcon } from "@heroicons/react/24/solid";
+
 import '../css/propertyCard.css';
 
 const PropertyCard = ({ property }) => {
@@ -28,6 +30,9 @@ const PropertyCard = ({ property }) => {
       <div className='property-size'>
         <p>{property.M2} {property.TipoMedida}m² / {property.Superficie} {property.TipoMedida} m²</p>
       </div>
+      <button className='heart'>
+        <HeartIcon className="h-6 w-6 text-white hover:text-red-800" aria-hidden="true" />
+      </button>
       <img className="card-image" src={property.Imagenes[0].Imagen} alt={property.Nombre} />
     </div>
   </div>
