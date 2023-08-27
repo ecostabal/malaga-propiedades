@@ -9,6 +9,5 @@ export const Home = () => (
       <HeroSection/>
       <CTA/>
       <FAQ/>
-      <TrustedCompanies/>
   </div>
 );

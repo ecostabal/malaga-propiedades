@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropertyCard from '../components/PropertyCard';
-import { Ping } from "@uiball/loaders";
+import { Waveform } from "@uiball/loaders";
 import Pagination from './Pagination';
 import SearchBar from "./SearchBar"
 
@@ -10,7 +10,7 @@ const PropertyList = () => {
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [noResultsMessage, setNoResultsMessage] = useState(null); // Mueve esta línea aquí
+  const [noResultsMessage, setNoResultsMessage] = useState(null); // Inicialmente sin mensaje
   const [searchParams, setSearchParams] = useState({
     operacion: 0,
     tipo: "-1",
@@ -19,7 +19,7 @@ const PropertyList = () => {
   
 
   const handleSearch = (newCriteria) => {
-    setNoResultsMessage(null); // Añade esta línea
+    setNoResultsMessage(null); // Restablecer el mensaje de no resultados
     setSearchParams({
       operacion: Number(newCriteria.operacion),
       tipo: String(newCriteria.tipo),
@@ -120,7 +120,7 @@ const PropertyList = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {isLoading ? (
           <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center h-60">
-            <Ping size={40} color="#333" />
+            <Waveform size={40} color="#333" />
           </div>
         ) : noResultsMessage ? (
           <p className="text-center text-red-500 col-span-1 md:col-span-2 lg:col-span-3">{noResultsMessage}</p>
