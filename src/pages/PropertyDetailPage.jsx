@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { Waveform } from "@uiball/loaders";
+import PropertyGallery from "../components/PropertyGallery"
+
 
 const PropertyDetailPage = () => {
   const { propertyId } = useParams();
@@ -43,9 +46,14 @@ const PropertyDetailPage = () => {
   return (
     <div>
       {loading ? (
-        <p>Cargando detalles de la propiedad...</p>
+        <div className="col-span-1 md:col-span-2 lg:col-span-3 flex justify-center items-center h-60">
+          <Waveform size={40} color="#333" />
+        </div>
       ) : property ? (
         <div>
+          <div>
+            <PropertyGallery images={imagenes ? imagenes.map(img => img.Imagen) : []} />
+          </div>
           <h2>{property.Tipo}</h2>
           <p>Comuna: {property.Comuna}</p>
           <p>Valor en Pesos: {property.ValorPesos}</p>
@@ -66,28 +74,24 @@ const PropertyDetailPage = () => {
           <p>Terraza: {property.Terraza ? 'Sí' : 'No'}</p>
           <p>Amoblado: {property.Amoblado ? 'Sí' : 'No'}</p>
           {agent ? (
-          <>
-            <p>Nombre: {agent.Nombre}</p>
-            <p>Teléfono: {agent.Telefono}</p>
-            <p>Celular: {agent.Celular}</p>
-            <p>Email: {agent.Email}</p>
-          </>
-        ) : (
-          <p>No se encontró información del agente.</p>
-        )}
-        {imagenes && imagenes.length > 0 ? (
-          imagenes.map((imagen, index) => (
-            <img key={index} src={imagen.Imagen} alt={`Imagen ${index}`} />
-          ))
-        ) : (
-          <p>No hay imágenes disponibles.</p>
-        )}
-      </div>
-    ) : (
-      <p>No se encontraron detalles de la propiedad.</p>
-    )}
-  </div>
+            <>
+              <p>Nombre: {agent.Nombre}</p>
+              <p>Teléfono: {agent.Telefono}</p>
+              <p>Celular: {agent.Celular}</p>
+              <p>Email: {agent.Email}</p>
+            </>
+          ) : (
+            <p>No se encontró información del agente.</p>
+          )}
+
+        </div>
+      ) : (
+        <p>No se encontraron detalles de la propiedad.</p>
+      )}
+    </div>
   );
+  
+  
 };
 
 export default PropertyDetailPage;
