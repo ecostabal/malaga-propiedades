@@ -7,5 +7,5 @@ export default function Footer() {
           <p className="text-sm text-gray-600 dark:text-gray-300">© Copyright 2023. All Rights Reserved - With ❤️ by <b>pucho.dev</b></p>
       </div>
     </footer>   
-);
+  );
 }

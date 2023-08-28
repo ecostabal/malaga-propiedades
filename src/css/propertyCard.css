@@ -56,12 +56,16 @@
     padding: 5px 10px;
 }
 
+.property-fetures p {
+    margin-right: px;
+}
+
 .property-name {
     color: rgb(53, 53, 53);
     font-size: 12px;
     border-radius: 5px;
     position: absolute;
-    bottom: 45px;
+    bottom: 50px;
     left: 15px;
     background-color: rgba(255, 255, 255, 0.878);
     padding: 5px 10px;

@@ -1,5 +1,8 @@
 import React from 'react';
 import { HeartIcon } from "@heroicons/react/24/solid";
+import { LuBath, LuBedDouble, LuCar } from "react-icons/lu";
+
+
 
 import '../css/propertyCard.css';
 
@@ -43,21 +46,26 @@ const PropertyCard = ({ property }) => {
         ? formatCurrency(property.ValorPesos)
         : formatCurrency(property.ValorUf)}
     </div>
-      <div className='property-fetures'>
-        <p>{property.Habitaciones}D | {property.Bathroom}B | {property.Estacionamientos}E</p>
-      </div>
-      <div className='property-name'>
+    <div className='property-fetures'>
+      <p>
+        <LuBedDouble className="h-5 w-5 inline mx-2" />
+        {property.Habitaciones}D <LuBath className="h-5 w-5 inline mx-2" />
+        {property.Bathroom}B <LuCar className="h-5 w-5 inline mx-2" />
+        {property.Estacionamientos}E
+      </p>
+      </div>    
+    <div className='property-name'>
         <p>{propertyType[property.Tipo] || property.Tipo} en {property.Comuna}</p> 
         {/* Aquí usamos propertyType para traducir el tipo de propiedad */}
-      </div>
-      <div className='property-size'>
-        <p>{property.M2} {property.TipoMedida}m² / {property.Superficie} {property.TipoMedida} m²</p>
-      </div>
-      <button className='heart'>
-        <HeartIcon className="h-8 w-8 text-white hover:text-red-500" aria-hidden="true" />
-      </button>
-      <img className="card-image" src={property.Imagenes[0].Imagen} alt={property.Nombre} />
     </div>
+    <div className='property-size'>
+        <p>{property.M2} {property.TipoMedida}m² / {property.Superficie} {property.TipoMedida} m²</p>
+    </div>
+    <button className='heart'>
+        <HeartIcon className="h-8 w-8 text-white hover:text-red-500" aria-hidden="true" />
+    </button>
+    <img className="card-image" src={property.Imagenes[0].Imagen} alt={property.Nombre} />
+  </div>
   </div>
   );
 };
