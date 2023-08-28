@@ -31,7 +31,7 @@ const SearchBarHome = ({ onSearch }) => {
         const response = await fetch('/api/Operacion', {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
         });1
@@ -53,7 +53,7 @@ const SearchBarHome = ({ onSearch }) => {
         const response = await fetch('/api/Categoria', {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
         });
@@ -75,7 +75,7 @@ const SearchBarHome = ({ onSearch }) => {
         const response = await fetch('/api/Comuna', {
           method: 'GET',
           headers: {
-            'Authorization': 'Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE',
+            'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
         });
@@ -110,21 +110,25 @@ const SearchBarHome = ({ onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    if (selectedOperation !== null && selectedTipo !== null && selectedComuna !== null) {
-      const selectedOperacion = selectedOperation.Codigo;
-      const selectedTipoInmueble = selectedTipo.Codigo;
-      const selectedComunaCodigo = selectedComuna.Codigo;
-
-      navigate(`/propiedades?operacion=${selectedOperacion}&tipo=${selectedTipoInmueble}&comuna=${selectedComunaCodigo}`);
     
-      onSearch({
-        operacion: selectedOperacion,
-        tipo: selectedTipoInmueble,
-        comuna: selectedComunaCodigo
-      });
+    console.log("handleSubmit triggered"); // Confirmar que se invoca esta función
+
+
+    const selectedOperacion = selectedOperation.Codigo;
+    const selectedTipoInmueble = selectedTipo.Codigo;
+    const selectedComunaCodigo = selectedComuna.Codigo;
+  
+    console.log("Selected values:", selectedOperacion, selectedTipoInmueble, selectedComunaCodigo); // Verificar los valores seleccionados
+
+    // Si deseas comprobar que no son valores por defecto, podrías hacerlo así:
+    if (selectedOperacion !== 0 || selectedTipoInmueble !== "-1" || selectedComunaCodigo !== -1) {
+      console.log("Attempting to navigate"); // Confirmar que entra a este bloque
+      navigate(`/propiedades?operacion=${encodeURIComponent(selectedOperacion)}&tipo=${encodeURIComponent(selectedTipoInmueble)}&comuna=${encodeURIComponent(selectedComunaCodigo)}`);
+    } else {
+      console.log("Navigation conditions not met"); // Ver si no cumple las condiciones
     }
   };
+  
   
 
   return (

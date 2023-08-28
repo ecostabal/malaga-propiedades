@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import Selector from "./Selector"
+import { useNavigate, useLocation } from 'react-router-dom';
+import Selector from "./Selector";
+import useHistoryState from 'use-history-state';
 
 const SearchBar = ({ onSearch }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [availableOperations, setAvailableOperations] = useState([]);
   const [tipoInmuebles, setTipoInmuebles] = useState([]);
   const [comunas, setComunas] = useState([]);
-  const [selectedOperation, setSelectedOperation] = useState({ Codigo: 0, Operacion: '' });
-  const [selectedTipo, setSelectedTipo] = useState({ Codigo: "-1", Tipo: '' });
-  const [selectedComuna, setSelectedComuna] = useState({ Codigo: -1, Comuna: '' });
+  const [selectedOperation, setSelectedOperation] = useHistoryState({ Codigo: -1, Operacion: '' }, "operacion");
+  const [selectedTipo, setSelectedTipo] = useHistoryState({ Codigo: "-1", Tipo: '' }, "tipo");
+  const [selectedComuna, setSelectedComuna] = useHistoryState({ Codigo: -1, Comuna: '' }, "comuna");
+
   const handleOperationChange = (newOption) => {
-    console.log('Selected Operation:', newOption);
     setSelectedOperation(newOption);
   };
 
   const handleTipoChange = (newOption) => {
-    console.log('Selected Tipo:', newOption);
     setSelectedTipo(newOption);
   };
 
   const handleComunaChange = (newOption) => {
-    console.log('Selected Comuna:', newOption);
     setSelectedComuna(newOption);
   };
 
@@ -32,7 +34,7 @@ const SearchBar = ({ onSearch }) => {
             'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
             'Content-Type': 'application/json;charset=iso-8859-1',
           }
-        });1
+        })
         const data = await response.json();
         if (data && data.responseCode === 0 && data.Operaciones) {
           setAvailableOperations(data.Operaciones);
@@ -102,23 +104,27 @@ const SearchBar = ({ onSearch }) => {
     };
 
     fetchComunas();
-  }, []);
-
+  }, [location]);
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    if (selectedOperation !== null && selectedTipo !== null && selectedComuna !== null) {
-      const selectedOperacion = selectedOperation.Codigo;
-      const selectedTipoInmueble = selectedTipo.Codigo;
-      const selectedComunaCodigo = selectedComuna.Codigo;
     
-      onSearch({
-        operacion: selectedOperacion,
-        tipo: selectedTipoInmueble,
-        comuna: selectedComunaCodigo
-      });
+    console.log("handleSubmit triggered"); // Confirmar que se invoca esta función
+
+
+    const selectedOperacion = selectedOperation.Codigo;
+    const selectedTipoInmueble = selectedTipo.Codigo;
+    const selectedComunaCodigo = selectedComuna.Codigo;
+  
+    console.log("Selected values:", selectedOperacion, selectedTipoInmueble, selectedComunaCodigo); // Verificar los valores seleccionados
+
+    // Si deseas comprobar que no son valores por defecto, podrías hacerlo así:
+    if (selectedOperacion !== 0 || selectedTipoInmueble !== "-1" || selectedComunaCodigo !== -1) {
+      console.log("Attempting to navigate"); // Confirmar que entra a este bloque
+      navigate(`/propiedades?operacion=${encodeURIComponent(selectedOperacion)}&tipo=${encodeURIComponent(selectedTipoInmueble)}&comuna=${encodeURIComponent(selectedComunaCodigo)}`, { replace: true });
+    } else {
+      console.log("Navigation conditions not met"); // Ver si no cumple las condiciones
     }
   };
   
