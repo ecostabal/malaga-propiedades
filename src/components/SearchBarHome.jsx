@@ -112,23 +112,35 @@ const SearchBarHome = ({ onSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    console.log("handleSubmit triggered"); // Confirmar que se invoca esta función
-
-
+    console.log("handleSubmit triggered");
+  
     const selectedOperacion = selectedOperation.Codigo;
     const selectedTipoInmueble = selectedTipo.Codigo;
     const selectedComunaCodigo = selectedComuna.Codigo;
   
-    console.log("Selected values:", selectedOperacion, selectedTipoInmueble, selectedComunaCodigo); // Verificar los valores seleccionados
-
-    // Si deseas comprobar que no son valores por defecto, podrías hacerlo así:
-    if (selectedOperacion !== 0 || selectedTipoInmueble !== "-1" || selectedComunaCodigo !== -1) {
-      console.log("Attempting to navigate"); // Confirmar que entra a este bloque
-      navigate(`/propiedades?operacion=${encodeURIComponent(selectedOperacion)}&tipo=${encodeURIComponent(selectedTipoInmueble)}&comuna=${encodeURIComponent(selectedComunaCodigo)}`);
-    } else {
-      console.log("Navigation conditions not met"); // Ver si no cumple las condiciones
+    console.log("Selected values:", selectedOperacion, selectedTipoInmueble, selectedComunaCodigo);
+  
+    let queryParams = [];
+  
+    if (selectedOperacion !== 0) {
+      queryParams.push(`operacion=${encodeURIComponent(selectedOperacion)}`);
     }
+  
+    if (selectedTipoInmueble !== "-1") {
+      queryParams.push(`tipo=${encodeURIComponent(selectedTipoInmueble)}`);
+    }
+  
+    if (selectedComunaCodigo !== -1) {
+      queryParams.push(`comuna=${encodeURIComponent(selectedComunaCodigo)}`);
+    }
+  
+    let queryString = queryParams.join('&');
+  
+    console.log("Attempting to navigate with query:", queryString);
+    
+    navigate(`/propiedades?${queryString}`);
   };
+  
   
   
 
