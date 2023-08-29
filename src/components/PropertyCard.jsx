@@ -17,13 +17,15 @@ function formatCurrency(value) {
 }
 
 const PropertyCard = ({ property, onIncrement, onDecrement }) => {
-    const [isRed, setIsRed] = useState(false);
+  const [isRed, setIsRed] = useState(false);
+    console.log(isRed)
 
     const handleHeartClick = (e) => {
-        e.stopPropagation();
-        setIsRed(prevState => !prevState);
-        isRed ? onDecrement() : onIncrement();
+      e.stopPropagation();
+      setIsRed(prevState => !prevState);
+      isRed ? onDecrement() : onIncrement();
     };
+  
 
     const propertyType = {
         DE: 'Departamento',
@@ -38,25 +40,25 @@ const PropertyCard = ({ property, onIncrement, onDecrement }) => {
     return (
         <div className="card">
             <div className='card-image-container'>
-                <div className="property-price">
+                <div className="text-sm	property-price">
                     💰 {property.Pactado === "PESOS" ? '$' : 'UF'}{' '}
                     {property.Pactado === "PESOS"
                         ? formatCurrency(property.ValorPesos)
                         : formatCurrency(property.ValorUf)}
                 </div>
                 <div className='property-fetures'>
-                    <p>
+                    <p className='text-sm'>
                         <LuBedDouble className="h-5 w-5 inline mx-2" />
-                        {property.Habitaciones}D <LuBath className="h-5 w-5 inline mx-2" />
-                        {property.Bathroom}B <LuCar className="h-5 w-5 inline mx-2" />
-                        {property.Estacionamientos}E
+                        {property.Habitaciones} <LuBath className="h-5 w-5 inline mx-2" />
+                        {property.Bathroom} <LuCar className="h-5 w-5 inline mx-2" />
+                        {property.Estacionamientos}
                     </p>
                 </div>
                 <div className='property-name'>
-                    <p>{propertyType[property.Tipo] || property.Tipo} en {property.Comuna}</p>
+                    <p className='text-sm'>{propertyType[property.Tipo] || property.Tipo} en {property.Comuna}</p>
                 </div>
                 <div className='property-size'>
-                    <p>{property.M2} {property.TipoMedida}m² / {property.Superficie} {property.TipoMedida} m²</p>
+                    <p className='text-sm'>{property.M2} {property.TipoMedida}m² / {property.Superficie} {property.TipoMedida} m²</p>
                 </div>
                 <button className='heart' onClick={handleHeartClick}>
                     <HeartIcon className={`h-8 w-8 ${isRed ? 'text-red-500' : 'text-white'}`} aria-hidden="true" />

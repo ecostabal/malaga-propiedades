@@ -7,17 +7,26 @@ import { FavoriteContext } from './FavoriteContext.jsx';
 
 export const App = () => {
   const [favoriteCount, setFavoriteCount] = useState(0);
+  const [favoriteProperties, setFavoriteProperties] = useState({});
 
-  const incrementFavorite = () => {
-    setFavoriteCount(prevCount => prevCount + 1);
-  };
-
-  const decrementFavorite = () => {
-    setFavoriteCount(prevCount => prevCount - 1);
+  const toggleFavorite = (propertyId, isFavorite) => {
+    if (isFavorite) {
+      setFavoriteProperties((prevFavorites) => ({
+        ...prevFavorites,
+        [propertyId]: true,
+      }));
+      setFavoriteCount((prevCount) => prevCount + 1);
+    } else {
+      setFavoriteProperties((prevFavorites) => ({
+        ...prevFavorites,
+        [propertyId]: false,
+      }));
+      setFavoriteCount((prevCount) => prevCount - 1);
+    }
   };
 
   return (
-    <FavoriteContext.Provider value={{ favoriteCount, incrementFavorite, decrementFavorite }}>
+    <FavoriteContext.Provider value={{ favoriteCount, toggleFavorite, favoriteProperties }}>
       <BrowserRouter>
         <div className="flex flex-col min-h-screen">
           <NavBar />

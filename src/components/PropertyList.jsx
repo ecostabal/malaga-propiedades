@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
 import SearchBar from './SearchBar';
@@ -22,9 +22,15 @@ const PropertyList = () => {
 
   // Favorites handlers
   const [favoriteCount, setFavoriteCount] = useState(0);
-  const incrementFavorite = () => setFavoriteCount(prevCount => prevCount + 1);
-  const decrementFavorite = () => setFavoriteCount(prevCount => prevCount - 1);
+  const incrementFavorite = useCallback(() => {
+    setFavoriteCount(prevCount => prevCount + 1);
+  }, []);
 
+  const decrementFavorite = useCallback(() => {
+    setFavoriteCount(prevCount => prevCount - 1);
+  }, []);
+
+  
   function getSearchParamsFromURL() {
     const queryParams = new URLSearchParams(location.search);
     return {
@@ -154,7 +160,7 @@ const PropertyList = () => {
                 onDecrement={decrementFavorite}
               />
             </Link>
-          ))
+          ))          
         )}
       </div>
       {!isLoading && (
