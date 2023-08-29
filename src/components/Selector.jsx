@@ -56,7 +56,7 @@ const Selector = ({
                   {() => (
                     <>
                       <span className={classNames('block truncate')}>
-                        Seleccione
+                        Selecciona
                       </span>
                     </>
                   )}
