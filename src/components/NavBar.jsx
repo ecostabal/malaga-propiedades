@@ -3,6 +3,9 @@ import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon, HeartIcon } from '@heroicons/react/24/outline';
 import { RoutePaths } from '../general/RoutePaths';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useFavorites } from '../favoritesContext.jsx';
+
+
 
 const navigation = [
   { name: 'Inicio', path: RoutePaths.HOME },
@@ -17,6 +20,8 @@ function classNames(...classes) {
 export default function Navigation() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(location.pathname);
+
+  const { favorites } = useFavorites();
 
   useEffect(() => {
     setActiveTab(location.pathname);
@@ -67,12 +72,13 @@ export default function Navigation() {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button type="button"className="relative rounded-full p-1 text-gray-400 hover:text-neutral-600">
-                  <span className='absolute top-0 right-0 text-white bg-red-600 w-4 h-4 flex items-center justify-center text-xs rounded-full'>0</span>
+              <button type="button" className="relative rounded-full p-1 text-gray-400 hover:text-neutral-600">
+                  {/* Aquí usamos el count */}
+                  <span className='absolute top-0 right-0 text-white bg-red-600 w-4 h-4 flex items-center justify-center text-xs rounded-full'>{favorites.length}</span>
                   <span className="absolute -inset-1.5" />
                   <span className="sr-only">View notifications</span>
                   <HeartIcon className="h-6 w-6" aria-hidden="true" />
-                </button>
+              </button>
 
                 <Menu as="div" className="relative ml-3">
                   <div>

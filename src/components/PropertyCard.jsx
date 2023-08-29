@@ -1,6 +1,7 @@
 import React from 'react';
 import { HeartIcon } from "@heroicons/react/24/solid";
 import { LuBath, LuBedDouble, LuCar } from "react-icons/lu";
+import { useFavorites } from '../favoritesContext.jsx';
 
 
 
@@ -27,6 +28,26 @@ function formatCurrency(value) {
 
 
 const PropertyCard = ({ property }) => {
+
+  const { favorites, addFavorite, removeFavorite } = useFavorites();
+  
+  const isFavorite = favorites.some(fav => fav.id === property.Codigo);
+
+  const toggleFavorite = (event) => {
+    event.preventDefault();  // Añade esto
+    event.stopPropagation();
+  
+    if (isFavorite) {
+        removeFavorite(property.Codigo);
+    } else {
+        addFavorite(property);
+    }
+};
+
+  
+  
+  
+  
   const propertyType = {
     DE: 'Departamento',
     CA: 'Casa',
@@ -61,8 +82,8 @@ const PropertyCard = ({ property }) => {
     <div className='property-size'>
         <p>{property.M2} {property.TipoMedida}m² / {property.Superficie} {property.TipoMedida} m²</p>
     </div>
-    <button className='heart'>
-        <HeartIcon className="h-8 w-8 text-white hover:text-red-500" aria-hidden="true" />
+    <button className='heart' onClick={toggleFavorite}>
+            <HeartIcon className={`h-8 w-8 text-white ${isFavorite ? 'text-red-500' : ''}`} aria-hidden="true" />
     </button>
     <img className="card-image" src={property.Imagenes[0].Imagen} alt={property.Nombre} />
   </div>
