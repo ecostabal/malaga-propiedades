@@ -10,6 +10,7 @@ const SearchBarHome = ({ onSearch }) => {
   const [selectedOperation, setSelectedOperation] = useState({ Codigo: 0, Operacion: '' });
   const [selectedTipo, setSelectedTipo] = useState({ Codigo: "-1", Tipo: '' });
   const [selectedComuna, setSelectedComuna] = useState({ Codigo: -1, Comuna: '' });
+  
   const handleOperationChange = (newOption) => {
     console.log('Selected Operation:', newOption);
     setSelectedOperation(newOption);
