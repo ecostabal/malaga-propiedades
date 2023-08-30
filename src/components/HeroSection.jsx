@@ -1,5 +1,5 @@
 import { React } from 'react'
-import SearchBarHome from "./SearchBarHome"
+import SearchBar from "./SearchBar"
 
 
 export default function HeroSection() {
@@ -51,7 +51,7 @@ export default function HeroSection() {
                 ¡Que fácil es buscar staging test7a!
               </h1>
               <div className="rounded-lg absolute mt-10 left-65 right-100 z-10 px-10 bg-white/80 backdrop-blur-sm shadow-xl">
-                <SearchBarHome history={history} />
+                <SearchBar history={history} />
               </div>
             </div>
             <div className="flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:pl-0">

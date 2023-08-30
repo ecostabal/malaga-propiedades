@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
-import SearchBar from './SearchBar';
 import Pagination from './Pagination';
 import { Waveform } from '@uiball/loaders';
 import { RoutePaths } from '../general/RoutePaths';
@@ -142,7 +141,6 @@ const PropertyList = () => {
 
   return (
     <div className="container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mb-24">
-      <SearchBar onSearch={handleSearch} />
       {error && <p className="text-red-500 mt-4">{error.message}</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {isLoading ? (
