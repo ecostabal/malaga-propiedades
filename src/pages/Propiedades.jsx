@@ -8,10 +8,12 @@ const Propiedades = () => {
 
   return (
     <div className="App">
-      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8">
         <SearchBar/>
       </div>
-      <PropertyList/>
+      <div className="px-4">
+        <PropertyList/>
+      </div>
     </div>
   );
   
