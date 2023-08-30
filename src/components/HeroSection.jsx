@@ -43,18 +43,20 @@ export default function HeroSection() {
           }}
         />
       </div>
-      <div className="overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-32">
+      <div className="overflow-hidden h-auto m-2.5 sm:m-0">
+        <div className="mx-auto max-w-7xl px-6 pb-32 pt-0 sm:pt-60 lg:px-8 lg:pt-32">
           <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none mt-20">
             <div className="w-full max-w-xl xl:max-w-xl">
-              <h1 className="text-4xl font-bold tracking-tight leading-9 text-gray-900 sm:text-6xl">
-                ¡Que fácil es buscar staging test7a!
+              <h1 className="text-center sm:text-left text-4xl font-bold tracking-tight leading-snug text-gray-900 sm:text-6xl">
+                ¡Que fácil es buscar propiedades!
               </h1>
-              <div className="rounded-lg absolute mt-10 left-65 right-100 z-10 px-10 bg-white/80 backdrop-blur-sm shadow-xl">
-                <SearchBar history={history} />
+              <div className="rounded-lg w-full mx-auto mt-10 py-10 z-10 px-10 bg-white/80 backdrop-blur-sm shadow-xl md:absolute md:mx-0 md:w-auto md:py-0">
+              <SearchBar history={history} />
               </div>
+
+
             </div>
-            <div className="flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:pl-0">
+            <div className="flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:pl-0 absolute sm:static -z-10 -mt-80">
               <div className="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
                 <div className="relative animate-wiggle">
                   <img

@@ -8,10 +8,13 @@ const Propiedades = () => {
 
   return (
     <div className="App">
-      <SearchBar/>
+      <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+        <SearchBar/>
+      </div>
       <PropertyList/>
     </div>
   );
+  
 };
 
 export default Propiedades;
