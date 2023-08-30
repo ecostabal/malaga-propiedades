@@ -18,7 +18,6 @@ const PropertyList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useState(getSearchParamsFromURL());
 
-
   // Favorites handlers
   const [favoriteCount, setFavoriteCount] = useState(0);
   const incrementFavorite = useCallback(() => {
@@ -51,6 +50,7 @@ const PropertyList = () => {
   
   const fetchData = async (pageNum, searchParams) => {
     setIsLoading(true);
+    setNoResultsMessage(null);
     setProperties([]); // Limpiar los resultados anteriores antes de cargar nuevos datos
     const body = { 
       "Operacion": searchParams.operacion,
@@ -118,12 +118,6 @@ const PropertyList = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleSearch = (newCriteria) => {
-    setNoResultsMessage(null);
-    setCurrentPage(1);
-    navigate(`/propiedades?operacion=${encodeURIComponent(newCriteria.operacion)}&tipo=${encodeURIComponent(newCriteria.tipo)}&comuna=${encodeURIComponent(newCriteria.comuna)}`);
   };
 
   // Effects

@@ -12,7 +12,7 @@ const Propiedades = () => {
         <SearchBar/>
       </div>
       <div className="px-4">
-        <PropertyList/>
+        <PropertyList />
       </div>
     </div>
   );
