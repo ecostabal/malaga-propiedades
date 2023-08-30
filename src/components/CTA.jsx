@@ -11,8 +11,7 @@ export default function CTA() {
               Vendemos tu propiedad en tiempo récord.
             </h2>
             <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
-              Incididunt sint fugiat pariatur cupidatat consectetur sit cillum anim id veniam aliqua proident excepteur
-              commodo do eaa.
+              Utilizamos las mejores estrategias para lograr que tu propiedad llegue a buenas manos en un plazo de tiempo coherente.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               <NavLink to={RoutePaths.CONVERSEMOS}>
