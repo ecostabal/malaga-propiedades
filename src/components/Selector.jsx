@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
@@ -6,7 +6,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
+
 const Selector = ({
+  
   options,
   selectedOption,
   setSelectedOption,
@@ -15,6 +17,7 @@ const Selector = ({
   idKey,
   nameKey,
 }) => {
+
   return (
     <Listbox value={selectedOption} onChange={setSelectedOption}>
       {({ open }) => (
