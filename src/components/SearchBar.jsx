@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Selector from "./Selector";
-import useHistoryState from 'use-history-state';
 
 const SearchBar = ({ onSearch }) => {
   const navigate = useNavigate();
@@ -9,9 +8,9 @@ const SearchBar = ({ onSearch }) => {
   const [availableOperations, setAvailableOperations] = useState([]);
   const [tipoInmuebles, setTipoInmuebles] = useState([]);
   const [comunas, setComunas] = useState([]);
-  const [selectedOperation, setSelectedOperation] = useHistoryState({ Codigo: -1, Operacion: '' }, "operacion");
-  const [selectedTipo, setSelectedTipo] = useHistoryState({ Codigo: "-1", Tipo: '' }, "tipo");
-  const [selectedComuna, setSelectedComuna] = useHistoryState({ Codigo: -1, Comuna: '' }, "comuna");
+  const [selectedOperation, setSelectedOperation] = useState({ Codigo: -1, Operacion: '' });
+  const [selectedTipo, setSelectedTipo] = useState({ Codigo: "-1", Tipo: '' });
+  const [selectedComuna, setSelectedComuna] = useState({ Codigo: -1, Comuna: '' });  
 
   const handleOperationChange = (newOption) => {
     setSelectedOperation(newOption);
@@ -24,6 +23,15 @@ const SearchBar = ({ onSearch }) => {
   const handleComunaChange = (newOption) => {
     setSelectedComuna(newOption);
   };
+
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSelectedOperation({ Codigo: params.get("operacion") || -1, Operacion: '' });
+    setSelectedTipo({ Codigo: params.get("tipo") || "-1", Tipo: '' });
+    setSelectedComuna({ Codigo: params.get("comuna") || -1, Comuna: '' });
+}, [location.search]);
+
 
   useEffect(() => {
     const fetchOperations = async () => {

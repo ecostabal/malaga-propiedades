@@ -48,7 +48,7 @@ export default function HeroSection() {
           <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none mt-20">
             <div className="w-full max-w-xl xl:max-w-xl">
               <h1 className="text-4xl font-bold tracking-tight leading-9 text-gray-900 sm:text-6xl">
-                ¡Que fácil es buscar propiedades!
+                ¡Que fácil es buscar staging test6!
               </h1>
               <div className="rounded-lg absolute mt-10 left-65 right-100 z-10 px-10 bg-white/80 backdrop-blur-sm shadow-xl">
                 <SearchBarHome history={history} />
