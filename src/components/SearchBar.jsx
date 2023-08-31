@@ -27,10 +27,24 @@ const SearchBar = ({ onSearch }) => {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    setSelectedOperation({ Codigo: params.get("operacion") || -1, Operacion: '' });
-    setSelectedTipo({ Codigo: params.get("tipo") || "-1", Tipo: '' });
-    setSelectedComuna({ Codigo: params.get("comuna") || -1, Comuna: '' });
-}, [location.search]);
+
+    // Para Operaciones
+    const operationCode = params.get("operacion") || -1;
+    const matchingOperation = availableOperations.find(op => op.Codigo == operationCode);
+    setSelectedOperation(matchingOperation || { Codigo: -1, Operacion: '' });
+
+    // Para Tipo
+    const tipoCode = params.get("tipo") || "-1";
+    const matchingTipo = tipoInmuebles.find(tipo => tipo.Codigo == tipoCode);
+    setSelectedTipo(matchingTipo || { Codigo: "-1", Tipo: '' });
+
+    // Para Comunas
+    const comunaCode = params.get("comuna") || -1;
+    const matchingComuna = comunas.find(comuna => comuna.Codigo == comunaCode);
+    setSelectedComuna(matchingComuna || { Codigo: -1, Comuna: '' });
+
+}, [location.search, availableOperations, tipoInmuebles, comunas]);
+
 
 
   useEffect(() => {

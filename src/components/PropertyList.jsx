@@ -28,7 +28,28 @@ const PropertyList = () => {
     setFavoriteCount(prevCount => prevCount - 1);
   }, []);
 
-  
+  // Esta función ha sido movida dentro del componente
+  const processData = (data) => {
+    if (!data) throw new Error('Respuesta de la API es nula');
+
+    if (data.responseCode !== undefined && data.responseCode !== 0) {
+        if (data.responseCode === -1) {
+            setNoResultsMessage(data.ErrorMensaje); 
+        } else {
+            throw new Error(data.ErrorMensaje || 'Respuesta no fue exitosa');
+        }
+    } else if (Array.isArray(data.Lista)) {
+        if (data.Lista.length === 0) {
+            setNoResultsMessage("No se encontraron propiedades para los criterios seleccionados.");
+        } else {
+            setProperties(data.Lista);
+            setTotalResults(data.PropiedadesEncontradas || 0);
+        }
+    } else {
+        throw new Error('La respuesta no es un array');
+    }
+  };
+
   function getSearchParamsFromURL() {
     const queryParams = new URLSearchParams(location.search);
     return {
@@ -39,19 +60,12 @@ const PropertyList = () => {
   }
 
   // Fetch Data and Helpers
-  function getSearchParamsFromURL() {
-    const queryParams = new URLSearchParams(location.search);
-    return {
-      operacion: Number(queryParams.get('operacion') || 0),
-      tipo: String(queryParams.get('tipo') || '-1'),
-      comuna: Number(queryParams.get('comuna') || -1),
-    };
-  }
   
-  const fetchData = async (pageNum, searchParams) => {
+  const fetchData = useCallback(async (pageNum, searchParams) => {
     setIsLoading(true);
     setNoResultsMessage(null);
-    setProperties([]); // Limpiar los resultados anteriores antes de cargar nuevos datos
+    setProperties([]);
+
     const body = { 
       "Operacion": searchParams.operacion,
       "Region": -1,
@@ -72,53 +86,33 @@ const PropertyList = () => {
 
     try {
       const response = await fetch("/api/propiedades", {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
-          'Content-Type': 'application/json;charset=iso-8859-1',
-        },
-        body: JSON.stringify(body),
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+              'Content-Type': 'application/json;charset=iso-8859-1',
+          },
+          body: JSON.stringify(body),
       });
 
       const blobData = await response.blob();
       const textData = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = reject;
-        reader.readAsText(blobData, 'ISO-8859-1');
+          const reader = new FileReader();
+          reader.onloadend = () => {
+              resolve(reader.result);
+          };
+          reader.onerror = reject;
+          reader.readAsText(blobData, 'ISO-8859-1');
       });
-      const data = JSON.parse(textData);
 
-      if (data) {
-        if (data.responseCode !== undefined && data.responseCode !== 0) {
-          if (data.responseCode === -1) {
-            console.log(data.ErrorMensaje);
-            setNoResultsMessage(data.ErrorMensaje); 
-          } else {
-            throw new Error(data.ErrorMensaje || 'Respuesta no fue exitosa');
-          }
-        } else if (Array.isArray(data.Lista)) {
-          if (data.Lista.length === 0) {
-            setNoResultsMessage("No se encontraron propiedades para los criterios seleccionados.");
-          } else {
-            setProperties(data.Lista);
-            setTotalResults(data.PropiedadesEncontradas || 0);
-          }
-        } else {
-          throw new Error('La respuesta no es un array');
-        }
-      } else {
-        throw new Error('Respuesta de la API es nula');
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
+      const data = JSON.parse(textData);
+      processData(data);
+  } catch (error) {
+      console.error('Error fetching or processing data:', error);
       setError(error);
-    } finally {
+  } finally {
       setIsLoading(false);
-    }
-  };
+  }
+}, [setIsLoading, setNoResultsMessage, setProperties, setError, processData]);
 
   // Effects
   useEffect(() => {
