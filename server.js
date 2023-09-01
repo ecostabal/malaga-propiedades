@@ -2,11 +2,15 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path'; // Importación de path
+import { fileURLToPath } from 'url'; // Agrega esta línea
+
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url)); // Agrega esta línea
 
 // Configuración de opciones CORS
 const allowedOrigins = ['http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
