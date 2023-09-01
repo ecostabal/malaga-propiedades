@@ -38,7 +38,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
-// MUEVE este middleware de manejo de errores aquí:
+// Middleware de manejo de errores
 app.use((err, req, res, next) => {
   console.error('Internal error:', err.stack);
   res.status(500).send('Internal Server Error');
