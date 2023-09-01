@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 });
 
 // Configuración de opciones CORS
-const allowedOrigins = ['http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
+const allowedOrigins = ['http://backoffice.urbx.io http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
 
 const corsOptions = {
   origin: function (origin, callback) {
