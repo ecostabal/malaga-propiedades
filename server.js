@@ -11,7 +11,17 @@ app.use(express.json());
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-// Configuración de opciones CORS
+// Registrar el origen de las solicitudes entrantes (para fines de depuración)
+app.use((req, res, next) => {
+  console.log('Request from:', req.get('origin'));
+  next();
+});
+
+// Simplificar temporalmente la configuración de CORS
+app.use(cors()); // Esta línea permite cualquier origen temporalmente
+
+// Configuración de opciones CORS (puedes reactivarla más tarde)
+/*
 const allowedOrigins = ['http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
 
 const corsOptions = {
@@ -29,6 +39,7 @@ const corsOptions = {
 
 // Usa el middleware CORS con las opciones especificadas
 app.use(cors(corsOptions));
+*/
 
 // Servir archivos estáticos
 app.use(express.static('dist'));
@@ -40,6 +51,11 @@ app.get('*', (req, res) => {
 
 // Middleware de manejo de errores
 app.use((err, req, res, next) => {
+  if (err instanceof cors.CorsError) {
+    console.error('CORS error:', err);
+    res.status(400).send('CORS Error');
+    return;
+  }
   console.error('Internal error:', err.stack);
   res.status(500).send('Internal Server Error');
 });
