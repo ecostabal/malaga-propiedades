@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid';
 
@@ -6,9 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-
 const Selector = ({
-  
   options,
   selectedOption,
   setSelectedOption,
@@ -17,7 +15,6 @@ const Selector = ({
   idKey,
   nameKey,
 }) => {
-
   return (
     <Listbox value={selectedOption} onChange={setSelectedOption}>
       {({ open }) => (
@@ -31,11 +28,7 @@ const Selector = ({
                 {selectedOption && selectedOption[displayProperty] ? selectedOption[displayProperty] : 'Seleccione Opción'}
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                {open ? (
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-800" aria-hidden="true" />
-                ) : (
-                    <ChevronUpDownIcon className="h-5 w-5 text-gray-800" aria-hidden="true" />
-                )}
+                <ChevronUpDownIcon className="h-5 w-5 text-gray-800" aria-hidden="true" />
               </span>
             </Listbox.Button>
             <Transition
@@ -56,13 +49,7 @@ const Selector = ({
                   }
                   value={null}
                 >
-                  {() => (
-                    <>
-                      <span className={classNames('block truncate')}>
-                        Selecciona
-                      </span>
-                    </>
-                  )}
+                  Selecciona
                 </Listbox.Option>
                 {options.map((option) => (
                   <Listbox.Option
@@ -80,16 +67,15 @@ const Selector = ({
                         <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
                           {option[nameKey]}
                         </span>
-                        {selected ? (
-                          <span
-                            className={classNames(
+                        {selected && (
+                          <span className={classNames(
                               active ? 'text-white' : 'text-indigo-600',
                               'absolute inset-y-0 right-0 flex items-center pr-4'
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
                           </span>
-                        ) : null}
+                        )}
                       </>
                     )}
                   </Listbox.Option>
