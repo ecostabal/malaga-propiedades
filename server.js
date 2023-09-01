@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import fetch from 'node-fetch';
 
 dotenv.config();
 
@@ -60,6 +61,82 @@ app.use((err, req, res, next) => {
   console.error('Internal error:', err.stack);
   res.status(500).send('Internal Server Error');
 });
+
+// Rutas para las APIs
+app.post('/api/propiedades', async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.VITE_REACT_APP_BASE_URL}/api/propiedades`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+        'Content-Type': 'application/json;charset=iso-8859-1',
+      },
+      body: JSON.stringify(req.body),
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching from backend:', error);
+    res.status(500).send('Error fetching from backend');
+  }
+});
+
+app.get('/api/Operacion', async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.VITE_REACT_APP_BASE_URL}/api/Operacion`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+        'Content-Type': 'application/json;charset=iso-8859-1',
+      },
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching from backend:', error);
+    res.status(500).send('Error fetching from backend');
+  }
+});
+
+app.get('/api/Categoria', async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.VITE_REACT_APP_BASE_URL}/api/Categoria`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+        'Content-Type': 'application/json;charset=iso-8859-1',
+      },
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching from backend:', error);
+    res.status(500).send('Error fetching from backend');
+  }
+});
+
+app.get('/api/Comuna', async (req, res) => {
+  try {
+    const response = await fetch(`${process.env.VITE_REACT_APP_BASE_URL}/api/Comuna`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+        'Content-Type': 'application/json;charset=iso-8859-1',
+      },
+    });
+
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('Error fetching from backend:', error);
+    res.status(500).send('Error fetching from backend');
+  }
+});
+
+
 
 const PORT = process.env.PORT || 5173;
 app.listen(PORT, () => {
