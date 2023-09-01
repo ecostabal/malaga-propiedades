@@ -48,7 +48,7 @@ export default function HeroSection() {
             <div className="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none mt-20">
               <div className="w-full max-w-xl xl:max-w-xl">
                 <h1 className="leading-snug sm:leading-snug text-center sm:text-left text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-                  ¡Que fácil es buscar propiedades!
+                  ¡Que fácil es buscar casas!
                 </h1>
                 <div className="rounded-lg w-full mx-auto mt-10 py-10 z-10 px-10 bg-white/80 backdrop-blur-sm shadow-xl md:absolute md:mx-0 md:w-auto md:py-0">
                 <SearchBar history={history} />
