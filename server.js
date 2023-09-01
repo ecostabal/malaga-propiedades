@@ -1,16 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import cors from 'cors'; // Importa el módulo cors
-
+import cors from 'cors';
+import path from 'path'; // Importación de path
 
 dotenv.config();
 
-
-
 const app = express();
 app.use(express.json());
-
-
 
 // Configuración de opciones CORS
 const allowedOrigins = ['http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
@@ -28,6 +24,9 @@ const corsOptions = {
   optionsSuccessStatus: 204
 };
 
+// Servir archivos estáticos
+app.use(express.static('dist'));
+
 // Usa el middleware CORS con las opciones especificadas
 app.use(cors(corsOptions));
 
@@ -35,6 +34,11 @@ app.use(cors(corsOptions));
 app.use((err, req, res, next) => {
   console.error('Internal error:', err.stack);
   res.status(500).send('Internal Server Error');
+});
+
+// Manejo de rutas fallback
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
 const PORT = process.env.PORT || 5173;
