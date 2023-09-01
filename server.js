@@ -31,14 +31,14 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Servir archivos estáticos
-app.use(express.static(path.resolve(__dirname, 'dist')));
+app.use(express.static('dist'));
 
 // Manejo de rutas fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
 });
 
-// Log detallado para depuración
+// MUEVE este middleware de manejo de errores aquí:
 app.use((err, req, res, next) => {
   console.error('Internal error:', err.stack);
   res.status(500).send('Internal Server Error');
