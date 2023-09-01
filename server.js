@@ -17,11 +17,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Simplificar temporalmente la configuración de CORS
-app.use(cors()); // Esta línea permite cualquier origen temporalmente
-
-// Configuración de opciones CORS (puedes reactivarla más tarde)
-/*
+// Configuración de opciones CORS
 const allowedOrigins = ['http://localhost:5173', 'https://malaga.pucho.dev', 'https://malaga-propiedades.vercel.app'];
 
 const corsOptions = {
@@ -39,7 +35,12 @@ const corsOptions = {
 
 // Usa el middleware CORS con las opciones especificadas
 app.use(cors(corsOptions));
-*/
+
+// Establece el tipo MIME correcto para los scripts .js
+app.get('/assets/*.js', (req, res, next) => {
+  res.type('application/javascript');
+  next();
+});
 
 // Servir archivos estáticos
 app.use(express.static('dist'));
