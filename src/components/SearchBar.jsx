@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Selector from "./Selector";
+import Selector from './Selector';
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -10,86 +10,79 @@ const SearchBar = ({ onSearch }) => {
   const [tipoInmuebles, setTipoInmuebles] = useState([]);
   const [comunas, setComunas] = useState([]);
   const [selectedOperation, setSelectedOperation] = useState({ Codigo: -1, Operacion: '' });
-  const [selectedTipo, setSelectedTipo] = useState({ Codigo: "-1", Tipo: '' });
-  const [selectedComuna, setSelectedComuna] = useState({ Codigo: -1, Comuna: '' });  
+  const [selectedTipo, setSelectedTipo] = useState({ Codigo: '-1', Tipo: '' });
+  const [selectedComuna, setSelectedComuna] = useState({ Codigo: -1, Comuna: '' });
 
+  // useEffect para cargar datos cuando cambia la URL
   useEffect(() => {
     setValuesFromURL();
-  }, [location.search, availableOperations, tipoInmuebles, comunas]);
+  }, [location.search]);
 
+  // useEffect para cargar datos una vez al inicio
   useEffect(() => {
     fetchOperations();
-  }, []);
-
-  useEffect(() => {
     fetchCategories();
+    fetchComunas();
   }, []);
 
-  useEffect(() => {
-    fetchComunas();
-  }, [location]);
-
+  // Función para obtener valores de la URL y actualizar los estados
   const setValuesFromURL = () => {
     const params = new URLSearchParams(location.search);
-    setSelectedOperation(findMatchingValue(availableOperations, params.get("operacion"), { Codigo: -1, Operacion: '' }));
-    setSelectedTipo(findMatchingValue(tipoInmuebles, params.get("tipo"), { Codigo: "-1", Tipo: '' }));
-    setSelectedComuna(findMatchingValue(comunas, params.get("comuna"), { Codigo: -1, Comuna: '' }));
+    setSelectedOperation(findMatchingValue(availableOperations, params.get('operacion'), { Codigo: -1, Operacion: '' }));
+    setSelectedTipo(findMatchingValue(tipoInmuebles, params.get('tipo'), { Codigo: '-1', Tipo: '' }));
+    setSelectedComuna(findMatchingValue(comunas, params.get('comuna'), { Codigo: -1, Comuna: '' }));
   };
 
   const findMatchingValue = (array, code, defaultValue) => {
-    return array.find(item => item.Codigo == code) || defaultValue;
+    return array.find(item => item.Codigo.toString() === code) || defaultValue;
   };
 
-  const fetchOperations = async () => {
-    const data = await fetchData('/api/Operacion');
-    if (data && data.responseCode === 0 && data.Operaciones) {
-      setAvailableOperations(data.Operaciones);
-    }
-  };
-
-  const fetchCategories = async () => {
-    const data = await fetchData('/api/Categoria');
-    if (data && data.responseCode === 0 && data.TipoInmuebles) {
-      setTipoInmuebles(data.TipoInmuebles);
-    }
-  };
-
-  const fetchComunas = async () => {
-    const data = await fetchData('/api/Comuna', true);
-    if (data && data.Comunas) {
-      setComunas(data.Comunas);
-    } else {
-      setComunas([]);
-    }
-  };
-
-  const fetchData = async (endpoint, isBlob = false) => {
+  const fetchData = async (endpoint) => {
     try {
       const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_REACT_APP_API_TOKEN}`,
+          'Authorization': `Bearer GVGKC7YNNRZTX7Q3HJ69LEJ6MWKWYVPTI6FE`,
           'Content-Type': 'application/json;charset=iso-8859-1',
-        }
+        },
       });
-      
-      if (isBlob) {
-        const blobData = await response.blob();
-        const textData = await new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            resolve(reader.result);
-          };
-          reader.onerror = reject;
-          reader.readAsText(blobData, 'ISO-8859-1');
-        });
-        return JSON.parse(textData);
-      } else {
-        return await response.json();
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
+
+      const data = await response.json();
+      return data;
     } catch (error) {
-      console.error(`Error fetching data from ${endpoint} :`, error);
+      console.error(`Error fetching data from ${endpoint}:`, error);
       return null;
+    }
+  };
+
+  const fetchOperations = async () => {
+    const data = await fetchData('https://backoffice.urbx.io/api/Operaciones');
+    if (data && data.responseCode === 0 && data.Operaciones) {
+      setAvailableOperations(data.Operaciones);
+    } else {
+      console.error('Failed to fetch operaciones');
+    }
+  };
+
+  const fetchCategories = async () => {
+    const data = await fetchData('https://backoffice.urbx.io/api/Categoria');
+    if (data && data.responseCode === 0 && data.TipoInmuebles) {
+      setTipoInmuebles(data.TipoInmuebles);
+    } else {
+      console.error('Failed to fetch categories');
+    }
+  };
+
+  const fetchComunas = async () => {
+    const data = await fetchData('https://backoffice.urbx.io/api/Comuna');
+    if (data && data.Comunas) {
+      setComunas(data.Comunas);
+    } else {
+      console.error('Failed to fetch comunas');
     }
   };
 
@@ -103,8 +96,8 @@ const SearchBar = ({ onSearch }) => {
     const selectedTipoInmueble = selectedTipo.Codigo;
     const selectedComunaCodigo = selectedComuna.Codigo;
 
-    if (selectedOperacion !== 0 || selectedTipoInmueble !== "-1" || selectedComunaCodigo !== -1) {
-      navigate(`/propiedades?operacion=${encodeURIComponent(selectedOperacion)}&tipo=${encodeURIComponent(selectedTipoInmueble)}&comuna=${encodeURIComponent(selectedComunaCodigo)}`, { replace: true });
+    if (selectedOperacion !== -1 || selectedTipoInmueble !== '-1' || selectedComunaCodigo !== -1) {
+      navigate(`https://backoffice.urbx.io/propiedades?operacion=${encodeURIComponent(selectedOperacion)}&tipo=${encodeURIComponent(selectedTipoInmueble)}&comuna=${encodeURIComponent(selectedComunaCodigo)}`, { replace: true });
     }
   };
 

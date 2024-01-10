@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropertyCard from '../components/PropertyCard';
 import Pagination from './Pagination';
 import { Waveform } from '@uiball/loaders';
@@ -15,7 +15,6 @@ const PropertyList = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useState(getSearchParamsFromURL());
-  const [favoriteCount, setFavoriteCount] = useState(0);
 
   const incrementFavorite = useCallback(() => setFavoriteCount(prevCount => prevCount + 1), []);
   const decrementFavorite = useCallback(() => setFavoriteCount(prevCount => prevCount - 1), []);

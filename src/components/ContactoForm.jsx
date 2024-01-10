@@ -1,18 +1,5 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { BuildingOffice2Icon, EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/outline'
+import React from 'react';
+import { BuildingOffice2Icon, EnvelopeIcon } from '@heroicons/react/24/outline'
 
 export default function ContactoForm() {
   return (
